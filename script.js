@@ -139,4 +139,45 @@ document.addEventListener('DOMContentLoaded', () => {
             observer.observe(body);
         });
     });
+
+    /* -------------------------------------------------------------
+       5. EFEITO DE INCLINAÇÃO 3D INTERATIVO (BOOK TILT EFFECT)
+    ------------------------------------------------------------- */
+    const bookContainer = document.querySelector('.book-mockup-container');
+    const bookTilt = document.querySelector('.book-tilt-wrapper');
+    
+    if (bookContainer && bookTilt) {
+        bookContainer.addEventListener('mousemove', (e) => {
+            const rect = bookContainer.getBoundingClientRect();
+            
+            // Posição do mouse relativa ao container
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            // Centraliza o ponto de origem (0 no centro)
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const dx = x - centerX;
+            const dy = y - centerY;
+            
+            // Calcula ângulos de rotação (máximo de 15 graus)
+            const rotateY = (dx / centerX) * 15;
+            const rotateX = -(dy / centerY) * 15;
+            
+            // Atualiza transform com a rotação 3D
+            bookTilt.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.03)`;
+            
+            // Passa a posição do mouse para o CSS (para o efeito de glow/brilho)
+            const mouseXPercent = (x / rect.width) * 100;
+            const mouseYPercent = (y / rect.height) * 100;
+            bookTilt.style.setProperty('--mouse-x', `${mouseXPercent}%`);
+            bookTilt.style.setProperty('--mouse-y', `${mouseYPercent}%`);
+        });
+        
+        bookContainer.addEventListener('mouseleave', () => {
+            // Reseta a rotação e escala de forma suave
+            bookTilt.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
+        });
+    }
 });
