@@ -321,6 +321,86 @@ h4 {
     font-weight: 400;
 }
 
+/* -------------------------------------------------------------
+   MOCKUP DO LIVRO E EFEITOS DE MOVIMENTO
+------------------------------------------------------------- */
+.book-mockup-container {
+    margin: 0 auto 3.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px;
+    z-index: 5;
+    position: relative;
+    max-width: 400px;
+}
+
+.book-float-wrapper {
+    animation: floatBook 6s ease-in-out infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.book-tilt-wrapper {
+    position: relative;
+    transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+    transform-style: preserve-3d;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.book-mockup-img {
+    max-width: 700px;
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.7));
+    transition: filter 0.3s ease;
+}
+
+/* Efeito de brilho/glow interativo baseado na posição do mouse */
+.book-tilt-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 15, 57, 0.12) 0%, rgba(255, 15, 57, 0) 60%);
+    pointer-events: none;
+    border-radius: 12px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    mix-blend-mode: screen;
+}
+
+.book-tilt-wrapper:hover::after {
+    opacity: 1;
+}
+
+.book-tilt-wrapper:hover .book-mockup-img {
+    filter: drop-shadow(0 25px 45px rgba(255, 15, 57, 0.25)) drop-shadow(0 15px 25px rgba(0, 0, 0, 0.8));
+}
+
+@keyframes floatBook {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-12px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
 .cta-wrapper {
     max-width: 580px;
     margin: 0 auto;
